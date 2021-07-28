@@ -1,8 +1,11 @@
 import express from 'express';
 import { sequelize } from './models';
+import { router } from './routes';
 
 export default (port: number) => {
   const app = express();
+  app.use(express.json());
+  app.use(router);
 
   (async (sequelize) => {
     try {
@@ -11,6 +14,7 @@ export default (port: number) => {
     } catch (error) {
       console.error('DATABASE CONNECTION FAILED 👎:'.red, error);
     }
+    sequelize.sync();
   })(sequelize);
 
   return app.listen(port, () => {

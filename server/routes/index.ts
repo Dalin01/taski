@@ -1,11 +1,10 @@
-import express, { Router } from 'express';
+import { Router } from 'express';
+import { register, login } from '../controllers/user';
+import { registerMiddleware } from '../middlewares/register';
 
-const router: Router = express.Router();
+const router: Router = Router();
 
-router.post('/login');
-router.post('/register');
+router.post('/login', login);
+router.post('/register', registerMiddleware, register);
 
-router.route('/channels').get().post();
-router.route('/channels/:id').delete().put();
-
-export default router;
+export { router };
