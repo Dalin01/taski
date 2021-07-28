@@ -1,11 +1,6 @@
-import express from 'express';
+require('dotenv').config();
+import 'colors';
+import start from './server';
 
-const app = express();
-
-app.get('/', (req, res) => {
-  res.send('Testing!');
-});
-
-app.listen(3000, () => {
-  console.log('The application is listening on port 3000!');
-});
+if (process.env.PORT === undefined) start(5000);
+else start(+process.env.PORT);
