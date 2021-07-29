@@ -19,6 +19,7 @@ export async function authMiddleware(
           const user = await User.findOne({ where: { id } });
           if (user) {
             req.body = {
+              ...req.body,
               id: user.id,
               email: user.email,
               firstName: user.firstName,

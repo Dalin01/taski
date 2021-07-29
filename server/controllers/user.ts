@@ -25,6 +25,7 @@ export async function register(
       accessToken = generateToken(id);
       console.log(newUser, accessToken);
     }
+
     res.status(201).json({
       id: newUser.id,
       firstName: newUser.firstName,
