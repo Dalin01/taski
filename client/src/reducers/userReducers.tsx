@@ -22,9 +22,17 @@ export const loginReducers = (state: State | {} = {}, action: Action) => {
 export const registerReducers = (state: State | {} = {}, action: Action) => {
   if (action.type === REGISTER_REQUEST) return { loading: true };
   if (action.type === REGISTER_SUCCESS)
-    return { loading: false, user: action.payload };
+    return {
+      ...state,
+      loading: false,
+      user: action.payload,
+    };
   if (action.type === REGISTER_FAILED)
-    return { loading: false, error: action.payload };
+    return {
+      ...state,
+      loading: false,
+      error: action.payload,
+    };
   if (action.type === LOGOUT) return {};
   return state;
 };

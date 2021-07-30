@@ -4,11 +4,12 @@ import { Form, Button, Row, Col } from 'react-bootstrap';
 type propsType = {
   name: string;
   setName: React.Dispatch<React.SetStateAction<string>>;
+  create: any;
 };
-const WorkspaceForm = ({ name, setName }: propsType) => {
+const WorkspaceForm = ({ name, setName, create }: propsType) => {
   return (
     <>
-      <Form>
+      <Form onSubmit={create}>
         <Form.Group as={Row} controlId="name">
           <Form.Label column sm="2">
             <div className="py-1">Workspace name:</div>

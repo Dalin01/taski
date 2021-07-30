@@ -5,6 +5,7 @@ import {
   REGISTER_REQUEST,
   REGISTER_FAILED,
   REGISTER_SUCCESS,
+  LOGOUT,
 } from '../constants/userConstant';
 import axios from 'axios';
 import { Dispatch } from 'redux';
@@ -54,4 +55,11 @@ export const register =
     } catch (error) {
       dispatch({ type: REGISTER_FAILED, payload: error.response.data });
     }
+  };
+
+export const logout =
+  () =>
+  (dispatch: Dispatch): void => {
+    localStorage.removeItem('user');
+    dispatch({ type: LOGOUT });
   };

@@ -6,10 +6,24 @@ import {
   REGISTER_FAILED,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
-  WORKSPACE_REQUEST,
-  WORKSPACE_SUCCESS,
-  WORKSPACE_FAILED,
+  WORKSPACE_CREATE_REQUEST,
+  WORKSPACE_CREATE_SUCCESS,
+  WORKSPACE_CREATE_FAILED,
+  WORKSPACE_GET_FAILED,
+  WORKSPACE_GET_REQUEST,
+  WORKSPACE_GET_SUCCESS,
 } from './constants/userConstant';
+
+export type Workspace = {
+  loading: boolean;
+  error?:
+    | {
+        error: string;
+        message: string;
+      }
+    | any;
+  workspace?: [{}] | any;
+};
 
 export type State = {
   id: string;
@@ -32,9 +46,12 @@ export type Action =
   | { type: typeof REGISTER_REQUEST }
   | { type: typeof REGISTER_SUCCESS; payload: State }
   | { type: typeof REGISTER_FAILED; payload: Failed }
-  | { type: typeof WORKSPACE_REQUEST }
-  | { type: typeof WORKSPACE_SUCCESS; payload: State }
-  | { type: typeof WORKSPACE_FAILED; payload: Failed };
+  | { type: typeof WORKSPACE_CREATE_REQUEST }
+  | { type: typeof WORKSPACE_CREATE_SUCCESS; payload: any }
+  | { type: typeof WORKSPACE_CREATE_FAILED; payload: Failed }
+  | { type: typeof WORKSPACE_GET_REQUEST }
+  | { type: typeof WORKSPACE_GET_SUCCESS; payload: any }
+  | { type: typeof WORKSPACE_GET_FAILED; payload: Failed };
 
 export type Register = {
   firstName: string;

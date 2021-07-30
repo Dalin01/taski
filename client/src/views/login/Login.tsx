@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Form, Button, Row, Col } from 'react-bootstrap';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import FormContainer from '../../components/formContainers/FormContainer';
 import { useDispatch, useSelector } from 'react-redux';
 import './style.css';
-import { login } from '../../actions/userAction';
+import { login } from '../../actionCreators/userAction';
 import { State, Failed } from '../../types';
 import { useHistory } from 'react-router-dom';
+import { getWorkspaces } from '../../actionCreators/workspaceAction';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -23,10 +24,10 @@ const Login = () => {
   const history = useHistory();
   useEffect(() => {
     if (user) {
-      // request for workspaces!
+      dispatch(getWorkspaces(user.id, user.token));
       history.push('/workspaces');
     }
-  }, [user, history]);
+  }, [user, history, dispatch]);
 
   function submit(event: React.FormEvent): void {
     event.preventDefault();
@@ -44,7 +45,9 @@ const Login = () => {
       {loading && <p>Loading...</p>}
       <Form onSubmit={submit}>
         <Form.Group controlId="email">
-          <Form.Label>Email Address</Form.Label>
+          <Form.Label>
+            <i className="fas fa-envelope"></i> Email Address
+          </Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter email"
@@ -52,8 +55,10 @@ const Login = () => {
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
+        <Form.Group controlId="password" className="pt-2">
+          <Form.Label>
+            <i className="fas fa-key"></i> Password
+          </Form.Label>
           <Form.Control
             type="password"
             placeholder="Enter password"
@@ -62,7 +67,7 @@ const Login = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Button type="submit" variant="info" className="my-3">
+        <Button type="submit" variant="dark" className="my-3">
           SUBMIT
         </Button>
 
