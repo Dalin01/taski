@@ -14,7 +14,6 @@ export async function getWorkspace(req: Request, res: Response): Promise<void> {
         },
       ],
     });
-
     res.json(workspaces);
   } catch (e) {
     res

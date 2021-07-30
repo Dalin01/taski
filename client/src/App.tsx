@@ -1,19 +1,30 @@
 import './bootwatch.simplex.css'; // theme
-import './App.css';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
-import Login from './components/login/Login';
+import Login from './views/login/Login';
+import RegisterView from './views/register/Register';
+import Workspaces from './views/workspaces/Workspaces';
 
 function App() {
   return (
     <Router>
       <Header />
-      <Route path="/login" exact>
+
+      <Route path="/login">
         <Login />
       </Route>
-      <Footer />
+
+      <Route path="/register">
+        <RegisterView />
+      </Route>
+
+      <Route path="/workspaces">
+        <Workspaces />
+      </Route>
+
+      {/* <Footer /> */}
     </Router>
   );
 }
