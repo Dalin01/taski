@@ -10,14 +10,6 @@ import axios from 'axios';
 import { Dispatch } from 'redux';
 import { Register, State } from '../types';
 
-// type State = {
-//   id: string;
-//   firstName: string;
-//   lastName: string;
-//   email: string;
-//   token: string;
-// };
-
 export const login =
   (email: string, password: string) =>
   async (dispatch: Dispatch): Promise<void> => {

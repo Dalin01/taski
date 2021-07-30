@@ -6,6 +6,9 @@ import {
   REGISTER_FAILED,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
+  WORKSPACE_REQUEST,
+  WORKSPACE_SUCCESS,
+  WORKSPACE_FAILED,
 } from './constants/userConstant';
 
 export type State = {
@@ -28,7 +31,10 @@ export type Action =
   | { type: typeof LOGOUT }
   | { type: typeof REGISTER_REQUEST }
   | { type: typeof REGISTER_SUCCESS; payload: State }
-  | { type: typeof REGISTER_FAILED; payload: Failed };
+  | { type: typeof REGISTER_FAILED; payload: Failed }
+  | { type: typeof WORKSPACE_REQUEST }
+  | { type: typeof WORKSPACE_SUCCESS; payload: State }
+  | { type: typeof WORKSPACE_FAILED; payload: Failed };
 
 export type Register = {
   firstName: string;

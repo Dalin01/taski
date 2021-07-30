@@ -8,9 +8,7 @@ const router: Router = Router();
 
 router.post('/login', login);
 router.post('/register', registerMiddleware, register);
-router
-  .route('/workspace')
-  .get(authMiddleware, getWorkspace)
-  .post(authMiddleware, postWorkspace);
+router.post('/workspaces', authMiddleware, getWorkspace);
+router.post('/workspace', authMiddleware, postWorkspace);
 
 export { router };
