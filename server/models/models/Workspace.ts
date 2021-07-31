@@ -15,6 +15,10 @@ export class Workspace extends Model {
   @Column
   name!: string;
 
+  @AllowNull(false)
+  @Column
+  createdBy!: number;
+
   @BelongsToMany(() => User, () => UserWorkspace)
   user?: User[];
 }

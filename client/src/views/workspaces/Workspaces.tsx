@@ -9,6 +9,7 @@ import {
   createWorkspace,
   getWorkspaces,
 } from '../../actionCreators/workspaceAction';
+import { useHistory } from 'react-router-dom';
 
 const Workspaces = () => {
   const [showForm, setShowForm] = useState(false);
@@ -21,8 +22,7 @@ const Workspaces = () => {
   );
   const { loading, error, workspace } = workspacesInStore;
 
-  const userLogin = useSelector((state: any) => state.userLogin);
-  const { user }: { user: State } = userLogin;
+  const { user }: { user: State } = useSelector((state: any) => state.user);
 
   function create(event: React.FormEvent): void {
     event.preventDefault();
@@ -34,12 +34,20 @@ const Workspaces = () => {
     dispatch(getWorkspaces(user.id, user.token));
   }, [user.id, user.token, dispatch]);
 
+  const history = useHistory();
+  function openWorkspace(
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ): void {
+    const value = e.currentTarget.value;
+    history.push(`/workspace/${user.id}/${value}`);
+  }
+
   return (
     <Container>
       <div className="py-5">
         <h4>
-          <i className="fas fa-building"></i> Workspaces ({workspace.length - 1}
-          )
+          <i className="fas fa-building"></i> Workspaces (
+          {workspace && workspace.length >= 1 ? workspace.length : 0})
         </h4>
         <hr />
 
@@ -62,15 +70,17 @@ const Workspaces = () => {
             +
           </button>
 
-          {workspace.length > 1 &&
+          {workspace &&
+            workspace.length &&
             workspace.map(({ name }: { name: string }) => {
               if (name)
                 return (
                   <button
                     key={name}
                     type="button"
+                    value={name}
                     className="btn btn-light myBtn"
-                    onClick={(e) => setShowForm(!showForm)}
+                    onClick={(e) => openWorkspace(e)}
                   >
                     {name}
                   </button>

@@ -3,7 +3,10 @@ import { User } from '../models/models/User';
 import { UserWorkspace } from '../models/models/UserWorkspace';
 import { Workspace } from '../models/models/Workspace';
 
-export async function getWorkspace(req: Request, res: Response): Promise<void> {
+export async function getWorkspaces(
+  req: Request,
+  res: Response
+): Promise<void> {
   try {
     const { id }: { id: number } = req.body;
     const workspaces = await Workspace.findAll({
@@ -16,9 +19,10 @@ export async function getWorkspace(req: Request, res: Response): Promise<void> {
     });
     res.json(workspaces);
   } catch (e) {
-    res
-      .status(401)
-      .send({ error: '401', message: 'Email or password is incorrect' });
+    res.status(401).send({
+      error: '401',
+      message: 'Cannot retrieve your workspaces. Please try again.',
+    });
   }
 }
 
@@ -28,8 +32,7 @@ export async function postWorkspace(
 ): Promise<void> {
   try {
     const { name, id }: { name: string; id: number } = req.body;
-    console.log('darl', name, id, req.body);
-    const workspace = await Workspace.create({ name: name });
+    const workspace = await Workspace.create({ name: name, createdBy: id });
 
     const userWorkspace = await UserWorkspace.create({
       userId: id,
@@ -42,8 +45,14 @@ export async function postWorkspace(
       ...userWorkspace,
     });
   } catch (e) {
-    res
-      .status(401)
-      .send({ error: '401', message: 'Email or password is incorrect' });
+    res.status(401).send({
+      error: '401',
+      message: 'Failed. Cannot create workspace. Please try again.',
+    });
   }
 }
+
+export async function getWorkspace(
+  req: Request,
+  res: Response
+): Promise<void> {}

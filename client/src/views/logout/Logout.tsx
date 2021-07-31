@@ -6,8 +6,8 @@ import { logout } from '../../actionCreators/userAction';
 
 const Logout = () => {
   const dispatch = useDispatch();
-  const userLogin = useSelector((state: any) => state.userLogin);
-  const { user }: { user: State } = userLogin;
+  const { user }: { user: State } = useSelector((state: any) => state.user);
+  // const { user }: { user: State } = userLogin;
 
   const history = useHistory();
   useEffect(() => {

@@ -14,7 +14,8 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
-  const userLogin = useSelector((state: any) => state.userLogin);
+  const userLogin = useSelector((state: any) => state.user);
+  // const userLogin = useSelector((state: any) => state.userLogin);
   const {
     loading,
     error,
