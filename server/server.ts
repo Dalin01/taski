@@ -1,5 +1,4 @@
 import express from 'express';
-import { authMiddleware } from './middlewares/authMiddleware';
 import { sequelize } from './models';
 import { router } from './routes';
 

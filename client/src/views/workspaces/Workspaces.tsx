@@ -4,7 +4,7 @@ import './style.css';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import WorkspaceForm from '../../components/workspaceForm/WorkspaceForm';
-import { State, Failed, Workspace } from '../../types';
+import { State, Workspace } from '../../types';
 import {
   createWorkspace,
   getWorkspaces,
@@ -38,8 +38,8 @@ const Workspaces = () => {
   function openWorkspace(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void {
-    const value = e.currentTarget.value;
-    history.push(`/workspace/${user.id}/${value}`);
+    const [name, id] = e.currentTarget.value.split(' ');
+    history.push(`/workspace/${id}/${name}`);
   }
 
   return (
@@ -71,14 +71,14 @@ const Workspaces = () => {
           </button>
 
           {workspace &&
-            workspace.length &&
-            workspace.map(({ name }: { name: string }) => {
+            workspace.length >= 1 &&
+            workspace.map(({ name, id }: { name: string; id: string }) => {
               if (name)
                 return (
                   <button
                     key={name}
                     type="button"
-                    value={name}
+                    value={`${name} ${id}`}
                     className="btn btn-light myBtn"
                     onClick={(e) => openWorkspace(e)}
                   >

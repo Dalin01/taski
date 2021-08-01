@@ -1,19 +1,13 @@
 import { Container, Navbar, Nav } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { State } from '../../types';
+import ModalComponent from '../modal/Modal';
+import { useState } from 'react';
 
 const Header = () => {
   const { user }: { user: State } = useSelector((state: any) => state.user);
-  //const registerLogin = useSelector((state: any) => state.userRegister);
-  //let currentUser: State | null = null;
 
-  // if (user) {
-  //   const { user }: { user: State } = userLogin;
-  //   currentUser = user;
-  // } else if (registerLogin) {
-  //   const { user }: { user: State } = registerLogin;
-  //   currentUser = user;
-  // }
+  const [show, setShow] = useState(false);
 
   return (
     <header>
@@ -21,6 +15,11 @@ const Header = () => {
         <Container>
           <Navbar.Brand href="/">Taski</Navbar.Brand>
           <Nav className="ml-auto">
+            {user && (
+              <Nav.Link onClick={() => setShow(true)}>
+                <i className="fas fa-plus"></i> Create Task
+              </Nav.Link>
+            )}
             {user ? (
               <Nav.Link href="/logout">
                 <i className="fas fa-sign-out-alt"></i> Logout
@@ -33,6 +32,7 @@ const Header = () => {
           </Nav>
         </Container>
       </Navbar>
+      <ModalComponent showModal={show} setShowModal={setShow} />
     </header>
   );
 };

@@ -2,31 +2,71 @@ import { Card, ListGroup, Form, Button } from 'react-bootstrap';
 import './style.css';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Failed, State } from '../../types';
+import { Failed, State, Members } from '../../types';
 import { useParams } from 'react-router-dom';
 import { Workspace } from '../../types';
 import { getCurrentWorkspace } from '../../helper';
+import { addTeamMember, getMembers } from '../../actionCreators/taskAction';
+import { useDispatch } from 'react-redux';
 
-const Members = () => {
+const MembersList = () => {
   const [email, setEmail] = useState('');
+  const [createdBy, setCreatedBy] = useState('');
+  //const [membersNames, setMembersNames] = useState<aMembersType[] | []>([]);
+  const dispatch = useDispatch();
 
   const userLogin = useSelector((state: any) => state.user);
-  const { error, user }: { loading: Boolean; error: Failed; user: State } =
-    userLogin;
+  const { user }: { loading: Boolean; error: Failed; user: State } = userLogin;
   const workspacesInStore: Workspace = useSelector(
     (state: any) => state.workSpaces
   );
-  const workspace = workspacesInStore.workspace;
+  const workspaces = workspacesInStore.workspace;
+
+  const membersNames: [
+    { id: string; firstName: string; lastName: string; email: string }
+  ] = useSelector((state: Members) => state.members).members;
+
   let { id, name }: { id: string; name: string } = useParams();
 
   useEffect(() => {
-    if (workspace) {
+    if (workspaces) {
       const result = getCurrentWorkspace(workspacesInStore, name, id);
-      console.log(result);
-    }
-  }, [workspace, workspacesInStore, id, name]);
+      setCreatedBy(result.createdBy);
+      const info = {
+        userEmail: user.id,
+        userId: user.email,
+        userToken: user.token,
+      };
 
-  function submit() {}
+      dispatch(getMembers(result, info));
+    }
+
+    // if (workspaces) {
+    //   const result = getCurrentWorkspace(workspacesInStore, name, id);
+    //   setMembersNames(getMembersNames(result));
+    // }
+  }, [
+    workspaces,
+    workspacesInStore,
+    name,
+    id,
+    user.id,
+    user.email,
+    user.token,
+    dispatch,
+  ]);
+
+  function submit(event: React.FormEvent): void {
+    event.preventDefault();
+    const details = {
+      workspaceName: name,
+      workspaceId: id,
+      userEmail: email,
+    };
+    dispatch(addTeamMember(details, user.token));
+    setEmail('');
+  }
+
   return (
     <div className="body">
       <Card className="card">
@@ -34,11 +74,16 @@ const Members = () => {
           <Card.Title>Members</Card.Title>
           <hr />
           <ListGroup variant="flush">
-            <ListGroup.Item>
-              <i className="fas fa-users-cog"></i> Cras justo odio
-            </ListGroup.Item>
-            <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-            <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+            {membersNames.length &&
+              Object.keys(membersNames[0]).length !== 0 &&
+              membersNames.map((aMember) => (
+                <ListGroup.Item key={aMember.id}>
+                  {String(aMember.id) === String(createdBy) && (
+                    <i className="fas fa-users-cog"></i>
+                  )}{' '}
+                  {`${aMember.firstName} ${aMember.lastName}`}
+                </ListGroup.Item>
+              ))}
           </ListGroup>
         </Card.Body>
       </Card>
@@ -62,4 +107,4 @@ const Members = () => {
   );
 };
 
-export default Members;
+export default MembersList;

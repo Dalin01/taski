@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../models/models/User';
 import { NextFunction, Request, Response } from 'express';
-import { where } from 'sequelize/types';
 
 export async function authMiddleware(
   req: Request,

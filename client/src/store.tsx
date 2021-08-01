@@ -1,22 +1,16 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
-// import { loginReducers, registerReducers } from './reducers/userReducers';
 import { userReducer } from './reducers/userReducers';
 import {
-  // getWorkspacesReducer,
-  // postWorkspaceReducer,
   workspacesReducer,
+  membersReducer,
 } from './reducers/workspaceReducers';
-import { Workspace } from './types';
 
 const reducer = combineReducers({
   user: userReducer,
-  // userLogin: loginReducers,
-  // userRegister: registerReducers,
-  // getWorkspaces: getWorkspacesReducer,
-  // postWorkspace: postWorkspaceReducer,
   workSpaces: workspacesReducer,
+  members: membersReducer,
 });
 
 const getUserFromLocalStorage: typeof JSON.parse | null = localStorage.getItem(
@@ -26,12 +20,9 @@ const getUserFromLocalStorage: typeof JSON.parse | null = localStorage.getItem(
   : null;
 
 const initialState = {
-  // userLogin: { user: getUserFromLocalStorage },
-  // userRegister: { user: getUserFromLocalStorage },
   user: { user: getUserFromLocalStorage },
   workSpaces: { loading: false, workspace: [{}] },
-  // getWorkspaces: [],
-  // postWorkspace: {},
+  members: { loading: false, members: [{}] },
 };
 
 const middleware = [thunk];

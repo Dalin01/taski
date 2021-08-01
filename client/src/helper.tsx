@@ -11,3 +11,18 @@ export function getCurrentWorkspace(
     }
   }
 }
+
+export function getMembersNames(members: any) {
+  let membersNames = [];
+
+  for (let i = 0; i < members.user.length; i++) {
+    membersNames.push({
+      name: `${members.user[i].firstName} ${members.user[i].lastName}`,
+      id: String(members.user[i].id),
+      createdBy: String(members.createdBy),
+    });
+  }
+
+  console.log(membersNames);
+  return membersNames;
+}

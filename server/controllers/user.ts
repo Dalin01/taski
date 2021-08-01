@@ -64,10 +64,3 @@ export async function login(req: Request, res: Response): Promise<void> {
       .send({ error: '401', message: 'Email or password is incorrect' });
   }
 }
-
-export async function logout(req: Request, res: Response): Promise<void> {
-  try {
-  } catch (e) {
-    res.status(401).send({ error: '401', message: 'Logout failed' });
-  }
-}

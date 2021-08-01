@@ -12,7 +12,24 @@ import {
   WORKSPACE_GET_FAILED,
   WORKSPACE_GET_REQUEST,
   WORKSPACE_GET_SUCCESS,
+  GET_CURRENT_WORKSPACE_REQUEST,
+  GET_CURRENT_WORKSPACE_FAILED,
+  GET_CURRENT_WORKSPACE_SUCCESS,
+  GET_MEMBERS_REQUEST,
+  GET_MEMBERS_SUCCESS,
+  GET_MEMBERS_FAILED,
 } from './constants/userConstant';
+
+export type Members = {
+  loading: boolean;
+  error?:
+    | {
+        error: string;
+        message: string;
+      }
+    | any;
+  members?: [{}] | any;
+};
 
 export type Workspace = {
   loading: boolean;
@@ -23,6 +40,17 @@ export type Workspace = {
       }
     | any;
   workspace?: [{}] | any;
+};
+
+export type currentWorkspace = {
+  loading: boolean;
+  error?:
+    | {
+        error: string;
+        message: string;
+      }
+    | any;
+  workspace?: {} | any;
 };
 
 export type State = {
@@ -51,7 +79,13 @@ export type Action =
   | { type: typeof WORKSPACE_CREATE_FAILED; payload: Failed }
   | { type: typeof WORKSPACE_GET_REQUEST }
   | { type: typeof WORKSPACE_GET_SUCCESS; payload: any }
-  | { type: typeof WORKSPACE_GET_FAILED; payload: Failed };
+  | { type: typeof WORKSPACE_GET_FAILED; payload: Failed }
+  | { type: typeof GET_CURRENT_WORKSPACE_REQUEST }
+  | { type: typeof GET_CURRENT_WORKSPACE_SUCCESS; payload: any }
+  | { type: typeof GET_CURRENT_WORKSPACE_FAILED; payload: Failed }
+  | { type: typeof GET_MEMBERS_REQUEST }
+  | { type: typeof GET_MEMBERS_SUCCESS; payload: any }
+  | { type: typeof GET_MEMBERS_FAILED; payload: Failed };
 
 export type Register = {
   firstName: string;

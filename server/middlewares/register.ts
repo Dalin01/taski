@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import { User } from '../models/models/User';
 import { hashUserPass } from './utils';
 
 export async function registerMiddleware(

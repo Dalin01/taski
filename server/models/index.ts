@@ -8,4 +8,6 @@ export const sequelize = new Sequelize({
   password: process.env.DB_PASSWORD || '',
   storage: ':memory:',
   models: [path.join(__dirname, 'models')],
+  // disable logging
+  logging: false,
 });
