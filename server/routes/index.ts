@@ -1,4 +1,5 @@
 import { Router } from 'express';
+// import { addTask } from '../controllers/tasks';
 import { register, login } from '../controllers/user';
 import {
   getWorkspaces,
@@ -19,5 +20,7 @@ router.post('/workspace', authMiddleware, postWorkspace); // create
 
 router.post('/getMembers', authMiddleware, getMembers);
 router.put('/addMember', authMiddleware, addMember);
+
+// router.post('/addTask', authMiddleware, addTask);
 
 export { router };

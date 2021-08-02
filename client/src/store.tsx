@@ -6,11 +6,13 @@ import {
   workspacesReducer,
   membersReducer,
 } from './reducers/workspaceReducers';
+import { taskReducers } from './reducers/taskReducers';
 
 const reducer = combineReducers({
   user: userReducer,
   workSpaces: workspacesReducer,
   members: membersReducer,
+  tasks: taskReducers,
 });
 
 const getUserFromLocalStorage: typeof JSON.parse | null = localStorage.getItem(
@@ -23,6 +25,7 @@ const initialState = {
   user: { user: getUserFromLocalStorage },
   workSpaces: { loading: false, workspace: [{}] },
   members: { loading: false, members: [{}] },
+  tasks: { loading: false, tasks: [{}] },
 };
 
 const middleware = [thunk];

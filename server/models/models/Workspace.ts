@@ -3,11 +3,12 @@ import {
   Model,
   Column,
   BelongsToMany,
-  Scopes,
   AllowNull,
+  HasMany,
 } from 'sequelize-typescript';
 import { User } from './User';
 import { UserWorkspace } from './UserWorkspace';
+import { Task } from './Task';
 
 @Table
 export class Workspace extends Model {
@@ -21,4 +22,7 @@ export class Workspace extends Model {
 
   @BelongsToMany(() => User, () => UserWorkspace)
   user?: User[];
+
+  @HasMany(() => Task)
+  tasks?: Task[];
 }

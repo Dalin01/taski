@@ -90,7 +90,6 @@ export const membersReducer = (state: Members | {} = {}, action: Action) => {
       temp.email = action.payload[i].email;
       getMembers.push(temp);
     }
-    console.log(getMembers);
     return {
       ...state,
       loading: false,

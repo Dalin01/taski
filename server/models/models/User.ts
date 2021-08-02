@@ -35,6 +35,10 @@ export class User extends Model<User> {
   workspaces?: Workspace[];
 
   async matchPassword(password: string) {
-    return await bcrypt.compare(password, this.password);
+    try {
+      return await bcrypt.compare(password, this.password);
+    } catch (e) {
+      return new Error('Match Failed');
+    }
   }
 }

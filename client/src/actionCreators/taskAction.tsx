@@ -6,6 +6,9 @@ import {
   GET_MEMBERS_REQUEST,
   GET_MEMBERS_SUCCESS,
   GET_MEMBERS_FAILED,
+  POST_TASK_REQUEST,
+  POST_TASK_SUCCESS,
+  POST_TASK_FAILED,
 } from '../constants/userConstant';
 import axios from 'axios';
 
@@ -57,15 +60,45 @@ export const getMembers =
 
       delete userData['userToken'];
       details.userData = userData;
-
       const { data } = await axios.post('/getMembers', details, config);
-
       const { users } = data;
-
       dispatch({ type: GET_MEMBERS_SUCCESS, payload: users });
     } catch (error) {
       dispatch({
         type: GET_MEMBERS_FAILED,
+        payload: error.response.data,
+      });
+    }
+  };
+
+type TaskDetails = {
+  assignedTo: string;
+  task: string;
+  date: string;
+  token?: string;
+  createdBy: string;
+  workspaceId: string;
+  workspaceName: String;
+};
+
+export const addTask =
+  (details: TaskDetails) =>
+  async (dispatch: Dispatch): Promise<void> => {
+    try {
+      dispatch({ type: POST_TASK_REQUEST });
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${details.token}`,
+        },
+      };
+      delete details['token'];
+      const { data } = await axios.post('/addTask', details, config);
+      const { users } = data;
+      dispatch({ type: POST_TASK_SUCCESS, payload: users });
+    } catch (error) {
+      dispatch({
+        type: POST_TASK_FAILED,
         payload: error.response.data,
       });
     }

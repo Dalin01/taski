@@ -18,7 +18,21 @@ import {
   GET_MEMBERS_REQUEST,
   GET_MEMBERS_SUCCESS,
   GET_MEMBERS_FAILED,
+  POST_TASK_REQUEST,
+  POST_TASK_SUCCESS,
+  POST_TASK_FAILED,
 } from './constants/userConstant';
+
+export type Task = {
+  loading: boolean;
+  error?:
+    | {
+        error: string;
+        message: string;
+      }
+    | any;
+  tasks?: [{}] | any;
+};
 
 export type Members = {
   loading: boolean;
@@ -85,7 +99,10 @@ export type Action =
   | { type: typeof GET_CURRENT_WORKSPACE_FAILED; payload: Failed }
   | { type: typeof GET_MEMBERS_REQUEST }
   | { type: typeof GET_MEMBERS_SUCCESS; payload: any }
-  | { type: typeof GET_MEMBERS_FAILED; payload: Failed };
+  | { type: typeof GET_MEMBERS_FAILED; payload: Failed }
+  | { type: typeof POST_TASK_REQUEST }
+  | { type: typeof POST_TASK_SUCCESS; payload: any }
+  | { type: typeof POST_TASK_FAILED; payload: Failed };
 
 export type Register = {
   firstName: string;
