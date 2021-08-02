@@ -21,6 +21,8 @@ const ModalComponent = ({
   const dispatch = useDispatch();
   const { user }: { user: State } = useSelector((state: any) => state.user);
   const history = useHistory();
+
+  // TO DO
   // const date = new Date();
   // const datetime = `${date.getFullYear()}-${
   //   date.getMonth() + 1

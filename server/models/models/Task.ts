@@ -37,7 +37,7 @@ export class Task extends Model {
 
   @ForeignKey(() => Workspace)
   @Column
-  workspaceId!: string;
+  workspaceId!: number;
 
   @BelongsTo(() => Workspace)
   workspace?: Workspace;

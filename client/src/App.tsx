@@ -2,7 +2,7 @@ import './bootwatch.simplex.css'; // theme
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Header from './components/header/Header';
-import Footer from './components/footer/Footer';
+// import Footer from './components/footer/Footer';
 import Login from './views/login/Login';
 import RegisterView from './views/register/Register';
 import Workspaces from './views/workspaces/Workspaces';

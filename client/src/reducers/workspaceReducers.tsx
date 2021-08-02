@@ -70,12 +70,6 @@ export const membersReducer = (state: Members | {} = {}, action: Action) => {
       loading: true,
     };
   if (action.type === GET_MEMBERS_SUCCESS) {
-    // const getMember = {
-    //   id: action.payload.id,
-    //   firstName: action.payload.firstName,
-    //   lastName: action.payload.lastName,
-    //   email: action.payload.email,
-    // };
     const getMembers = [];
     for (let i = 0; i < action.payload.length; i++) {
       const temp: {
@@ -103,28 +97,3 @@ export const membersReducer = (state: Members | {} = {}, action: Action) => {
     };
   return state;
 };
-
-// export const workspaceReducer = (
-//   state: currentWorkspace | {} = {},
-//   action: Action
-// ) => {
-//   if (action.type === GET_CURRENT_WORKSPACE_REQUEST)
-//     return {
-//       ...state,
-//       loading: true,
-//     };
-//   if (action.type === GET_CURRENT_WORKSPACE_SUCCESS) {
-//     return {
-//       ...state,
-//       loading: false,
-//       workspace: action.payload,
-//     };
-//   }
-//   if (action.type === GET_CURRENT_WORKSPACE_FAILED)
-//     return {
-//       loading: false,
-//       error: action.payload,
-//     };
-//   if (action.type === LOGOUT) return {};
-//   return state;
-// };

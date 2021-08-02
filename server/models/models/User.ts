@@ -3,7 +3,6 @@ import {
   Model,
   Column,
   BelongsToMany,
-  Scopes,
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import bcrypt from 'bcrypt';
@@ -38,7 +37,7 @@ export class User extends Model<User> {
     try {
       return await bcrypt.compare(password, this.password);
     } catch (e) {
-      return new Error('Match Failed');
+      console.error(e);
     }
   }
 }

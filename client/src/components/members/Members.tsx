@@ -12,7 +12,6 @@ import { useDispatch } from 'react-redux';
 const MembersList = () => {
   const [email, setEmail] = useState('');
   const [createdBy, setCreatedBy] = useState('');
-  //const [membersNames, setMembersNames] = useState<aMembersType[] | []>([]);
   const dispatch = useDispatch();
 
   const userLogin = useSelector((state: any) => state.user);
@@ -40,11 +39,6 @@ const MembersList = () => {
 
       dispatch(getMembers(result, info));
     }
-
-    // if (workspaces) {
-    //   const result = getCurrentWorkspace(workspacesInStore, name, id);
-    //   setMembersNames(getMembersNames(result));
-    // }
   }, [
     workspaces,
     workspacesInStore,

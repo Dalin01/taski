@@ -1,6 +1,5 @@
 import { User } from '../models/models/User';
 import { Request, Response } from 'express';
-import bcrypt from 'bcrypt';
 import generateToken from './generateToken';
 
 export async function register(

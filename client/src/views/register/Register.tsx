@@ -16,7 +16,6 @@ const RegisterView = () => {
 
   const dispatch = useDispatch();
   const registerLogin = useSelector((state: any) => state.user);
-  // const registerLogin = useSelector((state: any) => state.userRegister);
   const {
     loading,
     error,

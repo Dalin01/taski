@@ -59,7 +59,11 @@ export const register =
 
 export const logout =
   () =>
-  (dispatch: Dispatch): void => {
-    localStorage.removeItem('user');
-    dispatch({ type: LOGOUT });
+  async (dispatch: Dispatch): Promise<void> => {
+    try {
+      localStorage.removeItem('user');
+      dispatch({ type: LOGOUT });
+    } catch (e) {
+      console.error(e);
+    }
   };

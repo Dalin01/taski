@@ -21,10 +21,13 @@ import {
   POST_TASK_REQUEST,
   POST_TASK_SUCCESS,
   POST_TASK_FAILED,
+  GET_TASK_REQUEST,
+  GET_TASK_SUCCESS,
+  GET_TASK_FAILED,
 } from './constants/userConstant';
 
 export type Task = {
-  loading: boolean;
+  loading?: boolean;
   error?:
     | {
         error: string;
@@ -102,7 +105,10 @@ export type Action =
   | { type: typeof GET_MEMBERS_FAILED; payload: Failed }
   | { type: typeof POST_TASK_REQUEST }
   | { type: typeof POST_TASK_SUCCESS; payload: any }
-  | { type: typeof POST_TASK_FAILED; payload: Failed };
+  | { type: typeof POST_TASK_FAILED; payload: Failed }
+  | { type: typeof GET_TASK_REQUEST }
+  | { type: typeof GET_TASK_SUCCESS; payload: any }
+  | { type: typeof GET_TASK_FAILED; payload: Failed };
 
 export type Register = {
   firstName: string;

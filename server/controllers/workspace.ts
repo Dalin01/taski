@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { Op } from 'sequelize';
 import { User } from '../models/models/User';
 import { UserWorkspace } from '../models/models/UserWorkspace';
 import { Workspace } from '../models/models/Workspace';

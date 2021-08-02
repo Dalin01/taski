@@ -9,6 +9,9 @@ import {
   POST_TASK_REQUEST,
   POST_TASK_SUCCESS,
   POST_TASK_FAILED,
+  GET_TASK_REQUEST,
+  GET_TASK_SUCCESS,
+  GET_TASK_FAILED,
 } from '../constants/userConstant';
 import axios from 'axios';
 
@@ -94,11 +97,36 @@ export const addTask =
       };
       delete details['token'];
       const { data } = await axios.post('/addTask', details, config);
-      const { users } = data;
-      dispatch({ type: POST_TASK_SUCCESS, payload: users });
+      dispatch({ type: POST_TASK_SUCCESS, payload: data.dataValues });
     } catch (error) {
       dispatch({
         type: POST_TASK_FAILED,
+        payload: error.response.data,
+      });
+    }
+  };
+
+type GetTask = {
+  token?: string;
+  workspaceId: string;
+};
+export const getTasks =
+  (details: GetTask) =>
+  async (dispatch: Dispatch): Promise<void> => {
+    try {
+      dispatch({ type: GET_TASK_REQUEST });
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${details.token}`,
+        },
+      };
+      delete details['token'];
+      const { data } = await axios.post('/getTasks', details, config);
+      dispatch({ type: GET_TASK_SUCCESS, payload: data.dataValues });
+    } catch (error) {
+      dispatch({
+        type: GET_TASK_FAILED,
         payload: error.response.data,
       });
     }

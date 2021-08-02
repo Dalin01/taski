@@ -7,7 +7,7 @@ import {
 import { Task } from '../types';
 import { Action } from '../types';
 
-export const taskReducers = (state: Task | {} = {}, action: Action) => {
+export const taskReducers = (state: Task = {}, action: Action) => {
   if (action.type === POST_TASK_REQUEST)
     return {
       ...state,
@@ -17,7 +17,7 @@ export const taskReducers = (state: Task | {} = {}, action: Action) => {
     return {
       ...state,
       loading: false,
-      task: action.payload,
+      tasks: [...state.tasks, action.payload],
     };
   }
   if (action.type === POST_TASK_FAILED)

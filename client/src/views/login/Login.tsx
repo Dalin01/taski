@@ -15,7 +15,6 @@ const Login = () => {
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state: any) => state.user);
-  // const userLogin = useSelector((state: any) => state.userLogin);
   const {
     loading,
     error,
