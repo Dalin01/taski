@@ -4,6 +4,7 @@ import { State } from '../../types';
 import ModalComponent from '../modal/Modal';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import logo from './logoNew.svg';
 
 const Header = () => {
   const { user }: { user: State } = useSelector((state: any) => state.user);
@@ -22,7 +23,15 @@ const Header = () => {
     <header>
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="/">Taski</Navbar.Brand>
+          <Navbar.Brand href="/">
+            <img
+              src={logo}
+              height="35"
+              className="d-inline-block align-center py-0 my-0"
+              alt="logo"
+            />
+            {/* Taski */}
+          </Navbar.Brand>
           <Nav className="ml-auto">
             {user && path.split('/').length > 2 && (
               <Nav.Link onClick={() => setShow(true)}>

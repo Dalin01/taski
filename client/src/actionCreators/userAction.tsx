@@ -10,6 +10,7 @@ import {
 import axios from 'axios';
 import { Dispatch } from 'redux';
 import { Register, State } from '../types';
+import { loginApiService } from '../api-service';
 
 export const login =
   (email: string, password: string) =>
@@ -21,7 +22,8 @@ export const login =
           'Content-Type': 'application/json',
         },
       };
-      const { data }: { data: State } = await axios.post(
+
+      const { data }: { data: State } = await loginApiService(
         '/login',
         { email, password },
         config

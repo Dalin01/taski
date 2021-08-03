@@ -36,7 +36,7 @@ const Workspace = () => {
           </Col>
           <Col xs={10}>
             {loading && <p>loading...</p>}
-            <Row>
+            <Row className="mt-3">
               {tasks &&
                 (tasks.length !== 0 || (
                   <div className="my-3 ml-2 alertClass">

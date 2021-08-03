@@ -63,7 +63,7 @@ const Workspaces = () => {
           )}
           <button
             type="button"
-            className="btn btn-light myBtn"
+            className="btn addClass "
             onClick={(e) => setShowForm(!showForm)}
           >
             +
