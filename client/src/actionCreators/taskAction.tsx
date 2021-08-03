@@ -12,6 +12,9 @@ import {
   GET_TASK_REQUEST,
   GET_TASK_SUCCESS,
   GET_TASK_FAILED,
+  EDIT_TASK_REQUEST,
+  EDIT_TASK_SUCCESS,
+  EDIT_TASK_FAILED,
 } from '../constants/userConstant';
 import axios from 'axios';
 
@@ -67,6 +70,7 @@ export const getMembers =
       const { users } = data;
       dispatch({ type: GET_MEMBERS_SUCCESS, payload: users });
     } catch (error) {
+      console.log(error);
       dispatch({
         type: GET_MEMBERS_FAILED,
         payload: error.response.data,
@@ -81,7 +85,7 @@ type TaskDetails = {
   token?: string;
   createdBy: string;
   workspaceId: string;
-  workspaceName: String;
+  workspaceName: string;
 };
 
 export const addTask =
@@ -109,6 +113,7 @@ export const addTask =
 type GetTask = {
   token?: string;
   workspaceId: string;
+  workspaceName: string;
 };
 export const getTasks =
   (details: GetTask) =>
@@ -123,10 +128,45 @@ export const getTasks =
       };
       delete details['token'];
       const { data } = await axios.post('/getTasks', details, config);
-      dispatch({ type: GET_TASK_SUCCESS, payload: data.dataValues });
+
+      dispatch({ type: GET_TASK_SUCCESS, payload: data.tasks });
     } catch (error) {
       dispatch({
         type: GET_TASK_FAILED,
+        payload: error.response.data,
+      });
+    }
+  };
+
+type EditDetails = {
+  assignedTo: string;
+  task: string;
+  deadline: string;
+  token?: string;
+  createdBy: string;
+  workspaceId: string;
+  workspaceName: string;
+  status: string;
+  id: string;
+  taskId?: string;
+};
+export const editCurrentTask =
+  (details: EditDetails) =>
+  async (dispatch: Dispatch): Promise<void> => {
+    try {
+      dispatch({ type: EDIT_TASK_REQUEST });
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${details.token}`,
+        },
+      };
+      delete details['token'];
+      const { data } = await axios.put('/editTask', details, config);
+      dispatch({ type: EDIT_TASK_SUCCESS, payload: data.dataValues });
+    } catch (error) {
+      dispatch({
+        type: EDIT_TASK_FAILED,
         payload: error.response.data,
       });
     }

@@ -16,7 +16,6 @@ const Workspaces = () => {
   const [name, setName] = useState('');
   const dispatch = useDispatch();
 
-  // const workspacesInStore = useSelector((state: any) => state.getWorkspaces);
   const workspacesInStore: Workspace = useSelector(
     (state: any) => state.workSpaces
   );
@@ -31,8 +30,8 @@ const Workspaces = () => {
   }
 
   useEffect(() => {
-    dispatch(getWorkspaces(user.id, user.token));
-  }, [user.id, user.token, dispatch]);
+    dispatch(getWorkspaces(user.token));
+  }, [user.token, dispatch]);
 
   const history = useHistory();
   function openWorkspace(

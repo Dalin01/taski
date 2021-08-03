@@ -31,7 +31,7 @@ export const createWorkspace =
   };
 
 export const getWorkspaces =
-  (id: string, token: string) =>
+  (token: string) =>
   async (dispatch: Dispatch): Promise<void> => {
     try {
       dispatch({ type: WORKSPACE_GET_REQUEST });
@@ -41,10 +41,10 @@ export const getWorkspaces =
           Authorization: `Bearer ${token}`,
         },
       };
-      const { data } = await axios.post('/workspaces', { id }, config);
+      // const { data } = await axios.post('/workspaces', { id }, config);
+      const { data } = await axios.get('/workspaces', config);
 
       dispatch({ type: WORKSPACE_GET_SUCCESS, payload: data });
-      // localStorage.setItem('workspaces', JSON.stringify(data));
     } catch (error) {
       dispatch({ type: WORKSPACE_GET_FAILED, payload: error.response.data });
     }

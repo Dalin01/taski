@@ -24,6 +24,9 @@ import {
   GET_TASK_REQUEST,
   GET_TASK_SUCCESS,
   GET_TASK_FAILED,
+  EDIT_TASK_REQUEST,
+  EDIT_TASK_SUCCESS,
+  EDIT_TASK_FAILED,
 } from './constants/userConstant';
 
 export type Task = {
@@ -108,7 +111,10 @@ export type Action =
   | { type: typeof POST_TASK_FAILED; payload: Failed }
   | { type: typeof GET_TASK_REQUEST }
   | { type: typeof GET_TASK_SUCCESS; payload: any }
-  | { type: typeof GET_TASK_FAILED; payload: Failed };
+  | { type: typeof GET_TASK_FAILED; payload: Failed }
+  | { type: typeof EDIT_TASK_REQUEST }
+  | { type: typeof EDIT_TASK_SUCCESS; payload: any }
+  | { type: typeof EDIT_TASK_FAILED; payload: Failed };
 
 export type Register = {
   firstName: string;

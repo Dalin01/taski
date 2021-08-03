@@ -8,6 +8,7 @@ import { Workspace } from '../../types';
 import { getCurrentWorkspace } from '../../helper';
 import { addTeamMember, getMembers } from '../../actionCreators/taskAction';
 import { useDispatch } from 'react-redux';
+import { getWorkspaces } from '../../actionCreators/workspaceAction';
 
 const MembersList = () => {
   const [email, setEmail] = useState('');
@@ -16,6 +17,11 @@ const MembersList = () => {
 
   const userLogin = useSelector((state: any) => state.user);
   const { user }: { loading: Boolean; error: Failed; user: State } = userLogin;
+
+  useEffect(() => {
+    dispatch(getWorkspaces(user.id, user.token));
+  }, [user.id, user.token, dispatch]);
+
   const workspacesInStore: Workspace = useSelector(
     (state: any) => state.workSpaces
   );
@@ -28,16 +34,17 @@ const MembersList = () => {
   let { id, name }: { id: string; name: string } = useParams();
 
   useEffect(() => {
-    if (workspaces) {
+    if (!(Object.keys(workspaces).length === 0)) {
       const result = getCurrentWorkspace(workspacesInStore, name, id);
-      setCreatedBy(result.createdBy);
-      const info = {
-        userEmail: user.id,
-        userId: user.email,
-        userToken: user.token,
-      };
-
-      dispatch(getMembers(result, info));
+      if (result) {
+        setCreatedBy(result.createdBy);
+        const info = {
+          userEmail: user.id,
+          userId: user.email,
+          userToken: user.token,
+        };
+        dispatch(getMembers(result, info));
+      }
     }
   }, [
     workspaces,

@@ -6,3 +6,26 @@
 .links {
   text-align: right;
 }
+
+.spanElement1 {
+  background-color: red;
+  border-radius: 0.5rem;
+  padding: 3px;
+}
+
+.spanElement2 {
+  background-color: grey;
+  border-radius: 0.5rem;
+  padding: 3px;
+}
+
+.deadline {
+  float: right;
+}
+
+.scrollStyle {
+  margin: 0px;
+  padding: 0px;
+  max-height: 100px;
+  overflow-y: scroll;
+}
