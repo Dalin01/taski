@@ -10,7 +10,7 @@ import axios from 'axios';
 import { Dispatch } from 'redux';
 
 export const createWorkspace =
-  (name: string, id: string, token: string) =>
+  (name: string, token: string) =>
   async (dispatch: Dispatch): Promise<void> => {
     try {
       dispatch({ type: WORKSPACE_CREATE_REQUEST });
@@ -20,11 +20,9 @@ export const createWorkspace =
           Authorization: `Bearer ${token}`,
         },
       };
-      const { data } = await axios.post('/workspace', { name, id }, config);
+      const { data } = await axios.post('/taskspace', { name }, config);
 
       dispatch({ type: WORKSPACE_CREATE_SUCCESS, payload: data });
-
-      //localStorage.setItem('workspaces', JSON.stringify(data));
     } catch (error) {
       dispatch({ type: WORKSPACE_CREATE_FAILED, payload: error.response.data });
     }
@@ -42,7 +40,7 @@ export const getWorkspaces =
         },
       };
       // const { data } = await axios.post('/workspaces', { id }, config);
-      const { data } = await axios.get('/workspaces', config);
+      const { data } = await axios.get('/taskspaces', config);
 
       dispatch({ type: WORKSPACE_GET_SUCCESS, payload: data });
     } catch (error) {

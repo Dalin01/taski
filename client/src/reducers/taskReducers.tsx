@@ -34,20 +34,18 @@ export const taskReducers = (state: Task = {}, action: Action) => {
   }
 
   if (action.type === GET_TASK_SUCCESS) {
-    console.log(state);
-
-    if (state.tasks)
-      return {
-        ...state,
-        loading: false,
-        tasks: [...state.tasks, ...action.payload],
-      };
-    else
-      return {
-        ...state,
-        loading: false,
-        tasks: [...action.payload],
-      };
+    // if (state.tasks)
+    //   return {
+    //     ...state,
+    //     loading: false,
+    //     tasks: [...state.tasks, ...action.payload],
+    //   };
+    // else
+    return {
+      ...state,
+      loading: false,
+      tasks: [...action.payload],
+    };
   }
 
   if (action.type === EDIT_TASK_SUCCESS) {

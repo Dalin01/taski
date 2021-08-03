@@ -8,15 +8,18 @@
 }
 
 .spanElement1 {
-  background-color: red;
-  border-radius: 0.5rem;
   padding: 3px;
+  font-weight: bold;
+  font-style: italic;
+  text-transform: uppercase;
+  color: red;
 }
 
 .spanElement2 {
-  background-color: grey;
-  border-radius: 0.5rem;
   padding: 3px;
+  font-weight: bold;
+  font-style: italic;
+  text-transform: uppercase;
 }
 
 .deadline {
@@ -28,4 +31,18 @@
   padding: 0px;
   max-height: 100px;
   overflow-y: scroll;
+}
+
+.edit {
+  background-color: #292b2c;
+  color: white;
+  padding: 2px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.edit:hover,
+.edit:active {
+  background-color: whitesmoke;
 }

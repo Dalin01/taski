@@ -25,7 +25,7 @@ const RegisterView = () => {
   const history = useHistory();
   useEffect(() => {
     if (user) {
-      history.push('/workspaces');
+      history.push('/taskspaces');
     }
   }, [user, history]);
 

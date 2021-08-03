@@ -5,6 +5,7 @@ import { Members } from '../../types';
 import { useSelector } from 'react-redux';
 import { useState } from 'react';
 import EditModal from '../modal/EditModal';
+import moment from 'moment';
 
 type TaskDetails = {
   id: string;
@@ -25,8 +26,13 @@ const TaskContainer = ({ taskDetails }: { taskDetails: TaskDetails }) => {
     { id: string; firstName: string; lastName: string; email: string }
   ] = useSelector((state: Members) => state.members).members;
 
-  let { id, task, assignedTo, createdBy, status, deadline, createdAt } =
-    taskDetails;
+  let { task, assignedTo, status, deadline } = taskDetails;
+
+  const differenceInTime =
+    new Date(taskDetails.deadline).getTime() - new Date().getTime();
+
+  const differenceInDays =
+    Math.floor((differenceInTime / (1000 * 3600 * 24)) * 100) / 100;
 
   for (let i = 0; i < membersNames.length; i++) {
     if (membersNames[i].id === assignedTo) {
@@ -50,13 +56,15 @@ const TaskContainer = ({ taskDetails }: { taskDetails: TaskDetails }) => {
           Assigned to: {assignedTo}
           <br />
           <span className={spanClass}>{status}</span>{' '}
-          <span className="deadline">{deadline}</span>
+          <span className="deadline">{differenceInDays} days</span>
         </Card.Header>
         <Card.Body className="py-1 mx-0 px-1">
           <Card.Text className="scrollStyle">{task}</Card.Text>
         </Card.Body>
         <div className="links py-1 mx-0 px-1">
-          <Card.Link onClick={editTask}>EDIT</Card.Link>
+          <Card.Link onClick={editTask} className="edit">
+            EDIT
+          </Card.Link>
         </div>
       </Card>
 

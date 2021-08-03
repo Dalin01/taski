@@ -54,7 +54,6 @@ const EditModal = ({
     const userId = user.id;
     const userToken = user.token;
     if (task && deadline && assignedTo && userId) {
-      console.log(task, currentTask.id, status);
       const details = {
         assignedTo,
         task: task,

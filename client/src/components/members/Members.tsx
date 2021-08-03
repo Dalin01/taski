@@ -19,8 +19,8 @@ const MembersList = () => {
   const { user }: { loading: Boolean; error: Failed; user: State } = userLogin;
 
   useEffect(() => {
-    dispatch(getWorkspaces(user.id, user.token));
-  }, [user.id, user.token, dispatch]);
+    dispatch(getWorkspaces(user.token));
+  }, [user.token, dispatch]);
 
   const workspacesInStore: Workspace = useSelector(
     (state: any) => state.workSpaces

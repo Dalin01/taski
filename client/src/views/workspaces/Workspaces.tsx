@@ -26,7 +26,7 @@ const Workspaces = () => {
   function create(event: React.FormEvent): void {
     event.preventDefault();
     setName('');
-    dispatch(createWorkspace(name, user.id, user.token));
+    dispatch(createWorkspace(name, user.token));
   }
 
   useEffect(() => {
@@ -38,14 +38,14 @@ const Workspaces = () => {
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void {
     const [name, id] = e.currentTarget.value.split(' ');
-    history.push(`/workspace/${id}/${name}`);
+    history.push(`/taskspace/${id}/${name}`);
   }
 
   return (
     <Container>
       <div className="py-5">
         <h4>
-          <i className="fas fa-building"></i> Workspaces (
+          <i className="fas fa-building"></i> Taskspaces (
           {workspace && workspace.length >= 1 ? workspace.length : 0})
         </h4>
         <hr />

@@ -19,7 +19,7 @@ function App() {
     <Router>
       <Header />
       <Switch>
-        <Route path="/workspace/:id/:name">
+        <Route path="/taskspace/:id/:name">
           <Workspace />
         </Route>
 
@@ -31,12 +31,12 @@ function App() {
           <RegisterView />
         </Route>
 
-        <Route path="/workspaces">
+        <Route path="/taskspaces">
           <Workspaces />
         </Route>
 
         <Route exact path="/">
-          {user ? <Redirect to="/workspaces" /> : <Login />}
+          {user ? <Redirect to="/taskspaces" /> : <Login />}
         </Route>
 
         <Route path="/logout">

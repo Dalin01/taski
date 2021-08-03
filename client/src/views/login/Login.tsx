@@ -24,8 +24,8 @@ const Login = () => {
   const history = useHistory();
   useEffect(() => {
     if (user) {
-      dispatch(getWorkspaces(user.id, user.token));
-      history.push('/workspaces');
+      dispatch(getWorkspaces(user.token));
+      history.push('/taskspaces');
     }
   }, [user, history, dispatch]);
 

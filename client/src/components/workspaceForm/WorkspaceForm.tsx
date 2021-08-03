@@ -19,11 +19,12 @@ const WorkspaceForm = ({ name, setName, create }: propsType) => {
               type="text"
               placeholder="Enter workspace name"
               value={name}
+              autoComplete="off"
               onChange={(e) => setName(e.target.value)}
             ></Form.Control>
           </Col>
           <Col sm="2" className="py-1">
-            <Button type="submit" variant="info">
+            <Button type="submit" variant="dark">
               CREATE
             </Button>
           </Col>
