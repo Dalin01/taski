@@ -6,8 +6,8 @@
   "scripts": {
     "format": "prettier --write \"server/**/*.{ts,js,jsx}\"",
     "compile": "npx tsc",
-    "start": "nodemon dist/server/index.js",
-    "lint": "eslint \"server/**/*.{ts,js,jsx}\" --quiet",
+    "start": "nodemon ../server/dist/index.js",
+    "lint": "eslint \"/**/*.{ts,js,jsx}\" --quiet",
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile:start": "npm run compile && npm run start"
   },

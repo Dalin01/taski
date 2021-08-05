@@ -17,6 +17,7 @@ export async function authMiddleware(
           const { id } = decoded;
           const user = await User.findOne({ where: { id } });
           if (user) {
+            console.log(req.params);
             req.body = {
               ...req.body,
               id: user.id,

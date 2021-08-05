@@ -17,7 +17,9 @@ export class Task extends Model {
   })
   id!: number;
 
-  @Column
+  @Column({
+    type: DataTypes.STRING(500),
+  })
   task!: string;
 
   @Column

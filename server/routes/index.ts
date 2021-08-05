@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { addTask, getTasks } from '../controllers/tasks';
+import { addTask, getTasks, editTask } from '../controllers/tasks';
 import { register, login } from '../controllers/user';
 import {
   getWorkspaces,
@@ -12,16 +12,36 @@ import { registerMiddleware } from '../middlewares/register';
 
 const router: Router = Router();
 
+// router.post('/login', login);
+// router.post('/register', registerMiddleware, register);
+// router.get('/taskspaces', authMiddleware, getWorkspaces);
+// router.post('/taskspace', authMiddleware, postWorkspace);
+// router.post('/getMembers', authMiddleware, getMembers);
+// router.put('/addMember', authMiddleware, addMember);
+// router.post('/addTask', authMiddleware, addTask);
+// router.post('/getTasks', authMiddleware, getTasks);
+// router.put('/editTask', authMiddleware, editTask);
+
+// Public routes
 router.post('/login', login);
 router.post('/register', registerMiddleware, register);
 
-router.post('/workspaces', authMiddleware, getWorkspaces); // to refactor to GET
-router.post('/workspace', authMiddleware, postWorkspace); // create
+router.use(authMiddleware);
 
-router.post('/getMembers', authMiddleware, getMembers); // to refactor to GET
-router.put('/addMember', authMiddleware, addMember);
+// Private routes
+// Taskspaces routes
+router.route('/taskspace').get(getTaskspace).post(postTaskspace);
+router
+  .route('/taskspace/:id/:taskspace')
+  .delete(deleteTaskspace)
+  .put(deleteTaskspace);
 
-router.post('/addTask', authMiddleware, addTask);
-router.post('/getTasks', authMiddleware, getTasks); // to refactor to GET
+// Members routes
+router.route('/members/:taskspace').get(getMembers).post(addMember);
+router.route('/members/:taskspace/:id').delete(removeMember);
+
+// Tasks routes
+router.route('/tasks/:taskspace').get(getTasks).post(postTask);
+router.route('/tasks/:taskspace/:id').put(editTask).delete(removeTask);
 
 export { router };

@@ -17,11 +17,11 @@ export async function getWorkspaces(
         },
       ],
     });
-    res.json(workspaces);
+    res.status(200).json(workspaces);
   } catch (e) {
     res.status(401).send({
       error: '401',
-      message: 'Cannot retrieve your workspaces. Please try again.',
+      message: 'Cannot retrieve your workspaces. Please sign in and try again.',
     });
   }
 }
@@ -33,7 +33,7 @@ export async function postWorkspace(
   try {
     const { name, id }: { name: string; id: number } = req.body;
 
-    const workspace = await Workspace.create({ name: name, createdBy: id });
+    const workspace = await Workspace.create({ name, createdBy: id });
 
     const userWorkspace = await UserWorkspace.create({
       userId: id,

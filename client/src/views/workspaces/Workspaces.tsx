@@ -66,7 +66,7 @@ const Workspaces = () => {
             className="btn addClass "
             onClick={(e) => setShowForm(!showForm)}
           >
-            +
+            CREATE
           </button>
 
           {workspace &&

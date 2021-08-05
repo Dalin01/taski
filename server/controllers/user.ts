@@ -20,9 +20,7 @@ export async function register(
     let accessToken: null | string = null;
     if (process.env.SECRETE_KEY) {
       const { id } = newUser;
-
       accessToken = generateToken(id);
-      console.log(newUser, accessToken);
     }
 
     res.status(201).json({
@@ -50,14 +48,12 @@ export async function login(req: Request, res: Response): Promise<void> {
         token: generateToken(user.id),
       });
     } else {
-      console.log('test'.red);
       res.status(401).send({
         error: '401',
         message: 'User does not exist. Please Register.',
       });
     }
   } catch (e) {
-    console.log('test'.blue);
     res
       .status(401)
       .send({ error: '401', message: 'Email or password is incorrect' });
