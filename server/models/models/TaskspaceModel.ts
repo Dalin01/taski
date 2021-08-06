@@ -6,12 +6,12 @@ import {
   AllowNull,
   HasMany,
 } from 'sequelize-typescript';
-import { User } from './User';
-import { UserWorkspace } from './UserWorkspace';
-import { Task } from './Task';
+import User from './UserModel';
+import UserTaskspace from './UserTaskspaceModel';
+import Task from './TaskModel';
 
 @Table
-export class Workspace extends Model {
+export default class Taskspace extends Model {
   @AllowNull(false)
   @Column
   name!: string;
@@ -20,7 +20,7 @@ export class Workspace extends Model {
   @Column
   createdBy!: number;
 
-  @BelongsToMany(() => User, () => UserWorkspace)
+  @BelongsToMany(() => User, () => UserTaskspace)
   user?: User[];
 
   @HasMany(() => Task)

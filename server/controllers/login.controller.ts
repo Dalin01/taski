@@ -1,4 +1,4 @@
-import { User } from '../models/models/User';
+import User from '../models/models/UserModel';
 import { Request, Response } from 'express';
 import generateToken from './generateToken';
 

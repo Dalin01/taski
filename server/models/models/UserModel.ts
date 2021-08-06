@@ -1,16 +1,11 @@
-import {
-  Table,
-  Model,
-  Column,
-  BelongsToMany,
-} from 'sequelize-typescript';
+import { Table, Model, Column, BelongsToMany } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
 import bcrypt from 'bcrypt';
-import { Workspace } from './Workspace';
-import { UserWorkspace } from './UserWorkspace';
+import Taskspace from './TaskspaceModel';
+import UserTaskspace from './UserTaskspaceModel';
 
 @Table
-export class User extends Model<User> {
+export default class User extends Model<User> {
   @Column({
     autoIncrement: true,
     primaryKey: true,
@@ -30,8 +25,8 @@ export class User extends Model<User> {
   @Column
   password!: string;
 
-  @BelongsToMany(() => Workspace, () => UserWorkspace)
-  workspaces?: Workspace[];
+  @BelongsToMany(() => Taskspace, () => UserTaskspace)
+  workspaces?: Taskspace[];
 
   async matchPassword(password: string) {
     try {

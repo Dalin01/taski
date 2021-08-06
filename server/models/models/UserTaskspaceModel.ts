@@ -1,14 +1,14 @@
 import { Table, Model, Column, ForeignKey } from 'sequelize-typescript';
-import { User } from './User';
-import { Workspace } from './Workspace';
+import User from './UserModel';
+import Taskspace from './TaskspaceModel';
 
 @Table
-export class UserWorkspace extends Model {
+export default class UserTaskspace extends Model {
   @ForeignKey(() => User)
   @Column
   userId!: number;
 
-  @ForeignKey(() => Workspace)
+  @ForeignKey(() => Taskspace)
   @Column
   workspaceId!: number;
 }

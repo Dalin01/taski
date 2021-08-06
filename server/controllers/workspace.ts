@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { User } from '../models/models/User';
-import { UserWorkspace } from '../models/models/UserWorkspace';
-import { Workspace } from '../models/models/Workspace';
+import User from '../models/models/UserModel';
+import UserTaskspace from '../models/models/UserTaskspaceModel';
+import Taskspace from '../models/models/TaskspaceModel';
 
 export async function getWorkspaces(
   req: Request,
@@ -9,7 +9,7 @@ export async function getWorkspaces(
 ): Promise<void> {
   try {
     const { id }: { id: number } = req.body;
-    const workspaces = await Workspace.findAll({
+    const workspaces = await Taskspace.findAll({
       include: [
         {
           model: User,
@@ -33,9 +33,9 @@ export async function postWorkspace(
   try {
     const { name, id }: { name: string; id: number } = req.body;
 
-    const workspace = await Workspace.create({ name, createdBy: id });
+    const workspace = await Taskspace.create({ name, createdBy: id });
 
-    const userWorkspace = await UserWorkspace.create({
+    const userWorkspace = await UserTaskspace.create({
       userId: id,
       workspaceId: workspace.id,
     });
@@ -59,7 +59,7 @@ export async function getMembers(req: Request, res: Response): Promise<void> {
     const users = await User.findAll({
       include: [
         {
-          model: Workspace,
+          model: Taskspace,
           where: {
             name,
           },
@@ -83,7 +83,7 @@ export async function addMember(req: Request, res: Response): Promise<void> {
     const { workspaceId, id, userEmail } = req.body;
     const user = await User.findOne({ where: { email: userEmail } });
     if (user) {
-      const response = await UserWorkspace.create({
+      const response = await UserTaskspace.create({
         userId: user.id,
         workspaceId: workspaceId,
       });

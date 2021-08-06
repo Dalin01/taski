@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { User } from '../models/models/User';
+import User from '../models/models/UserModel';
 import { NextFunction, Request, Response } from 'express';
 
 export async function authMiddleware(
@@ -17,21 +17,20 @@ export async function authMiddleware(
           const { id } = decoded;
           const user = await User.findOne({ where: { id } });
           if (user) {
-            console.log(req.params);
             req.body = {
               ...req.body,
               id: user.id,
               email: user.email,
-              firstName: user.firstName,
-              lastName: user.lastName,
+              firstname: user.firstName,
+              lastname: user.lastName,
             };
           }
         }
       } catch (e) {
-        res.sendStatus(401);
+        res.status(401);
       }
     } else {
-      res.sendStatus(403);
+      res.status(403);
     }
     next();
   } catch (e) {

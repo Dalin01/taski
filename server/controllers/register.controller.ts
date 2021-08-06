@@ -1,4 +1,4 @@
-import { User } from '../models/models/User';
+import User from '../models/models/UserModel';
 import { Request, Response } from 'express';
 import generateToken from './generateToken';
 
@@ -16,7 +16,7 @@ export async function register(
   res: Response
 ): Promise<void | Response<any, Record<string, any>>> {
   try {
-    const { email } = req.body;
+    const { email }: { email: string } = req.body;
     const user = await User.findOne({ where: { email: email } });
     if (user) {
       return res.status(409).json({

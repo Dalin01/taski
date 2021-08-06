@@ -6,10 +6,10 @@ import {
   BelongsTo,
 } from 'sequelize-typescript';
 import { DataTypes } from 'sequelize';
-import { Workspace } from './Workspace';
+import Taskspace from './TaskspaceModel';
 
 @Table
-export class Task extends Model {
+export default class Task extends Model {
   @Column({
     autoIncrement: true,
     primaryKey: true,
@@ -37,10 +37,10 @@ export class Task extends Model {
   @Column
   workspaceName!: string;
 
-  @ForeignKey(() => Workspace)
+  @ForeignKey(() => Taskspace)
   @Column
   workspaceId!: number;
 
-  @BelongsTo(() => Workspace)
-  workspace?: Workspace;
+  @BelongsTo(() => Taskspace)
+  workspace?: Taskspace;
 }

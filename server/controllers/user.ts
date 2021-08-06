@@ -1,4 +1,4 @@
-import { User } from '../models/models/User';
+import User from '../models/models/UserModel';
 import { Request, Response } from 'express';
 import generateToken from './generateToken';
 
@@ -17,7 +17,7 @@ export async function register(
 
     const newUser = await User.create(req.body);
 
-    let accessToken: null | string = null;
+    let accessToken: undefined | string = undefined;
     if (process.env.SECRETE_KEY) {
       const { id } = newUser;
       accessToken = generateToken(id);
