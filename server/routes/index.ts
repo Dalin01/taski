@@ -17,6 +17,11 @@ import { getTaskspace } from '../controllers/getTaskspace.controller';
 import { postTaskspace } from '../controllers/postTaskspace.controller';
 import { editTaskspace } from '../controllers/editTaskspace.controller';
 import { deleteTaskspace } from '../controllers/deleteTaskspace.controller';
+import { getMembers } from '../controllers/getMembers.controller';
+import { addMember } from '../controllers/addMember.controller';
+import { deleteMember } from '../controllers/removeMember.controller';
+import { getTasks } from '../controllers/getTasks.controller';
+import { addTask } from '../controllers/postTasks.controller';
 
 const router: Router = Router();
 
@@ -45,11 +50,15 @@ router
   .put(editTaskspace);
 
 // Members routes
-router.route('/members/:taskspace').get(getMembers).post(addMember);
-// router.route('/members/:taskspace/:id').delete(removeMember);
+router
+  .route('/members/:taskspace/:id')
+  .get(getMembers)
+  .post(addMember)
+  .delete(deleteMember);
+// router.route('/members/:taskspace/:id').delete(deleteMember);
 
-// // Tasks routes
-// router.route('/tasks/:taskspace').get(getTasks).post(postTask);
+// Tasks routes
+router.route('/tasks/:workspaceId').get(getTasks).post(addTask);
 // router.route('/tasks/:taskspace/:id').put(editTask).delete(removeTask);
 
 export { router };
