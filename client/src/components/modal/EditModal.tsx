@@ -1,10 +1,11 @@
 import React from 'react';
-import { Members, State } from '../../types';
+import { Members, UserType } from '../../types';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Button, Form, Dropdown } from 'react-bootstrap';
 import { useState } from 'react';
 import { editCurrentTask } from '../../actionCreators/taskAction';
 import { useHistory } from 'react-router-dom';
+import { InitialState } from '../../views/login/Login';
 // import DatePicker from 'react-bootstrap-date-picker';
 
 type TaskDetails = {
@@ -35,7 +36,9 @@ const EditModal = ({
   ] = useSelector((state: Members) => state.members).members;
 
   const dispatch = useDispatch();
-  const { user }: { user: State } = useSelector((state: any) => state.user);
+  const { user }: { user: UserType } = useSelector(
+    (state: InitialState) => state.user
+  );
   const history = useHistory();
   // TO DO
   // const date = new Date();

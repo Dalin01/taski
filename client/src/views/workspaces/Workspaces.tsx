@@ -4,7 +4,7 @@ import './style.css';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import WorkspaceForm from '../../components/workspaceForm/WorkspaceForm';
-import { State, Workspace } from '../../types';
+import { UserType, InitialState } from '../../types';
 import {
   createWorkspace,
   getWorkspaces,
@@ -16,17 +16,19 @@ const Workspaces = () => {
   const [name, setName] = useState('');
   const dispatch = useDispatch();
 
-  const workspacesInStore: Workspace = useSelector(
-    (state: any) => state.workSpaces
+  const workspacesInStore = useSelector(
+    (state: InitialState) => state.workSpaces
   );
-  const { loading, error, workspace } = workspacesInStore;
 
-  const { user }: { user: State } = useSelector((state: any) => state.user);
+  const { loading, error, workspace } = workspacesInStore;
+  const { user }: { user: UserType } = useSelector(
+    (state: InitialState) => state.user
+  );
 
   function create(event: React.FormEvent): void {
     event.preventDefault();
     setName('');
-    dispatch(createWorkspace(name, user.token));
+    if (name !== '') dispatch(createWorkspace(name, user.token));
   }
 
   useEffect(() => {
@@ -37,7 +39,8 @@ const Workspaces = () => {
   function openWorkspace(
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ): void {
-    const [name, id] = e.currentTarget.value.split(' ');
+    const id = (e.target as Element).getAttribute('data-id');
+    const name = e.currentTarget.value;
     history.push(`/taskspace/${id}/${name}`);
   }
 
@@ -56,17 +59,17 @@ const Workspaces = () => {
 
         <div>
           {loading && <p>...loading</p>}
-          {error && (
+          {error?.error && (
             <div className="alert alert-dismissible alert-warning">
               <p className="mb-0">{error.message}</p>
             </div>
           )}
           <button
             type="button"
-            className="btn addClass "
+            className="btn btn-dark addClass"
             onClick={(e) => setShowForm(!showForm)}
           >
-            CREATE
+            Add
           </button>
 
           {workspace &&
@@ -77,8 +80,9 @@ const Workspaces = () => {
                   <button
                     key={name}
                     type="button"
-                    value={`${name} ${id}`}
-                    className="btn btn-light myBtn"
+                    value={`${name}`}
+                    data-id={id}
+                    className="btn btn-dark myBtn"
                     onClick={(e) => openWorkspace(e)}
                   >
                     {name}

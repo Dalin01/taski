@@ -1,3 +1,6 @@
-.main {
-  min-height: 85vh;
+.formStyle {
+  /* background-color: orange; */
+  padding: 1rem;
+  border-width: 3px;
+  border-color: rgb(29, 28, 28);
 }

@@ -1,61 +1,51 @@
-import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAILED,
-  REGISTER_REQUEST,
-  REGISTER_FAILED,
-  REGISTER_SUCCESS,
-  LOGOUT,
-} from '../constants/userConstant';
 import axios from 'axios';
 import { Dispatch } from 'redux';
-import { Register, State } from '../types';
+import { Register, UserType } from '../types';
 import { loginApiService } from '../api-service';
 
-export const login =
+export const loginAction =
   (email: string, password: string) =>
   async (dispatch: Dispatch): Promise<void> => {
     try {
-      dispatch({ type: LOGIN_REQUEST });
+      dispatch({ type: 'LOGIN_REQUEST' });
       const config = {
         headers: {
           'Content-Type': 'application/json',
         },
       };
-
-      const { data }: { data: State } = await loginApiService(
+      const { data }: { data: UserType } = await loginApiService(
         '/login',
         { email, password },
         config
       );
 
-      dispatch({ type: LOGIN_SUCCESS, payload: data });
+      dispatch({ type: 'LOGIN_SUCCESS', payload: data });
       localStorage.setItem('user', JSON.stringify(data));
     } catch (error) {
-      dispatch({ type: LOGIN_FAILED, payload: error.response.data });
+      dispatch({ type: 'LOGIN_FAILED', payload: error.response.data });
     }
   };
 
-export const register =
+export const registerAction =
   (details: Register) =>
   async (dispatch: Dispatch): Promise<void> => {
     try {
-      dispatch({ type: REGISTER_REQUEST });
+      dispatch({ type: 'REGISTER_REQUEST' });
       const config = {
         headers: {
           'Content-Type': 'application/json',
         },
       };
-      const { data }: { data: State } = await axios.post(
+      const { data }: { data: UserType } = await axios.post(
         '/register',
         details,
         config
       );
 
-      dispatch({ type: REGISTER_SUCCESS, payload: data });
+      dispatch({ type: 'REGISTER_SUCCESS', payload: data });
       localStorage.setItem('user', JSON.stringify(data));
     } catch (error) {
-      dispatch({ type: REGISTER_FAILED, payload: error.response.data });
+      dispatch({ type: 'REGISTER_FAILED', payload: error.response.data });
     }
   };
 
@@ -64,7 +54,7 @@ export const logout =
   async (dispatch: Dispatch): Promise<void> => {
     try {
       localStorage.removeItem('user');
-      dispatch({ type: LOGOUT });
+      dispatch({ type: 'LOGOUT' });
     } catch (e) {
       console.error(e);
     }

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../models/models/UserModel';
 import UserTaskspace from '../models/models/UserTaskspaceModel';
+import Taskspace from '../models/models/TaskspaceModel';
 
 type AddMember = {
   id: string;
@@ -14,7 +15,7 @@ export async function addMember(
   res: Response
 ): Promise<void | Response<any, Record<string, any>>> {
   try {
-    const { id } = req.params;
+    const { taskspace, id } = req.params;
     const { memberEmail }: { memberEmail: string } = req.body;
     const user = await User.findOne({ where: { email: memberEmail } });
     if (user) {
@@ -24,7 +25,6 @@ export async function addMember(
           workspaceId: id,
         },
       });
-
       if (existingMember) {
         return res
           .status(400)
@@ -36,24 +36,15 @@ export async function addMember(
         workspaceId: id,
       });
 
-      const newMember = await User.findOne({
-        where: { id },
+      const memberList: AddMember = {
+        id: '' + user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      };
+      res.status(200).json({
+        memberList: [memberList],
       });
-
-      if (newMember) {
-        const addMember: AddMember = {
-          id: '' + newMember.id,
-          firstName: newMember.firstName,
-          lastName: newMember.lastName,
-          email: newMember.email,
-        };
-        res.status(200).json({
-          addMember,
-        });
-      } else
-        return res
-          .status(400)
-          .send({ error: '400', message: 'Cannot add use to the space' });
     } else {
       res.status(400).send({
         error: '400',

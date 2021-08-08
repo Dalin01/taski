@@ -1,18 +1,26 @@
 import './style.css';
 import Image from '../image/Image';
 import { useSelector } from 'react-redux';
-import { State, Failed } from '../../types';
+import { Failed, UserType, WorkspaceType } from '../../types';
 import Members from '../members/Members';
+import { InitialState } from '../../views/login/Login';
 
-const Sidebar = () => {
-  const userLogin = useSelector((state: any) => state.user);
-  const { user }: { loading: Boolean; error: Failed; user: State } = userLogin;
+const Sidebar = ({
+  createdBy,
+  currentTaskspace,
+}: {
+  createdBy: string;
+  currentTaskspace: WorkspaceType;
+}) => {
+  const userLogin = useSelector((state: InitialState) => state.user);
+  const { user }: { loading: Boolean; error: Failed; user: UserType } =
+    userLogin;
 
   return (
     <>
       <div className="d-none d-md-block py-3 px-2">
-        {user && <Image name={`${user.firstName} ${user.lastName}`} />}
-        <Members />
+        {user && <Image name={`${user.firstname} ${user.lastname}`} />}
+        <Members createdBy={createdBy} currentTaskspace={currentTaskspace} />
       </div>
     </>
   );

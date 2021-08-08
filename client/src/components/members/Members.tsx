@@ -1,88 +1,104 @@
-import { Card, ListGroup, Form, Button } from 'react-bootstrap';
+import { Card, ListGroup, Form, Button, Alert } from 'react-bootstrap';
 import './style.css';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Failed, State, Members } from '../../types';
+import {
+  Failed,
+  Members,
+  UserType,
+  WorkspaceType,
+  InitialState,
+} from '../../types';
 import { useParams } from 'react-router-dom';
-import { Workspace } from '../../types';
-import { getCurrentWorkspace } from '../../helper';
-import { addTeamMember, getMembers } from '../../actionCreators/taskAction';
+import {
+  addTeamMember,
+  removeTeamMember,
+} from '../../actionCreators/taskAction';
 import { useDispatch } from 'react-redux';
-import { getWorkspaces } from '../../actionCreators/workspaceAction';
 
-const MembersList = () => {
+const MembersList = ({
+  createdBy,
+  currentTaskspace,
+}: {
+  createdBy: string;
+  currentTaskspace: WorkspaceType;
+}) => {
   const [email, setEmail] = useState('');
-  const [createdBy, setCreatedBy] = useState('');
   const dispatch = useDispatch();
 
-  const userLogin = useSelector((state: any) => state.user);
-  const { user }: { loading: Boolean; error: Failed; user: State } = userLogin;
+  const userLogin = useSelector((state: InitialState) => state.user);
+  const { user }: { loading: Boolean; error: Failed; user: UserType } =
+    userLogin;
 
-  useEffect(() => {
-    dispatch(getWorkspaces(user.token));
-  }, [user.token, dispatch]);
-
-  const workspacesInStore: Workspace = useSelector(
-    (state: any) => state.workSpaces
+  const taskMembers: Members = useSelector(
+    (state: InitialState) => state.members
   );
-  const workspaces = workspacesInStore.workspace;
-
   const membersNames: [
     { id: string; firstName: string; lastName: string; email: string }
-  ] = useSelector((state: Members) => state.members).members;
+  ] = taskMembers.members;
+
+  let memberError: string = '';
+  if (taskMembers.error) memberError = taskMembers.error.error;
 
   let { id, name }: { id: string; name: string } = useParams();
 
-  useEffect(() => {
-    if (!(Object.keys(workspaces).length === 0)) {
-      const result = getCurrentWorkspace(workspacesInStore, name, id);
-      if (result) {
-        setCreatedBy(result.createdBy);
-        const info = {
-          userEmail: user.id,
-          userId: user.email,
-          userToken: user.token,
-        };
-        dispatch(getMembers(result, info));
-      }
-    }
-  }, [
-    workspaces,
-    workspacesInStore,
-    name,
-    id,
-    user.id,
-    user.email,
-    user.token,
-    dispatch,
-  ]);
-
   function submit(event: React.FormEvent): void {
     event.preventDefault();
-    const details = {
-      workspaceName: name,
-      workspaceId: id,
-      userEmail: email,
-    };
-    dispatch(addTeamMember(details, user.token));
-    setEmail('');
+    if (currentTaskspace) {
+      const details = {
+        workspaceName: name,
+        workspaceId: id,
+        userEmail: email,
+        result: currentTaskspace,
+      };
+      dispatch(addTeamMember(details, user.token));
+      setEmail('');
+    }
+  }
+
+  function deleteMember(dataValue: string | null): void {
+    if (dataValue) {
+      const details = {
+        workspaceName: name,
+        workspaceId: id,
+        userEmail: email,
+        result: currentTaskspace,
+        dataValue,
+      };
+      dispatch(removeTeamMember(details, user.token));
+    }
   }
 
   return (
     <div className="body">
+      {memberError && <Alert variant="info">No user found</Alert>}
       <Card className="card">
         <Card.Body>
           <Card.Title>Members</Card.Title>
           <hr />
           <ListGroup variant="flush">
-            {membersNames.length &&
-              Object.keys(membersNames[0]).length !== 0 &&
+            {!taskMembers.loading &&
+              membersNames.length &&
               membersNames.map((aMember) => (
-                <ListGroup.Item key={aMember.id}>
+                <ListGroup.Item key={aMember.id} style={{ display: 'flex' }}>
                   {String(aMember.id) === String(createdBy) && (
                     <i className="fas fa-users-cog"></i>
                   )}{' '}
                   {`${aMember.firstName} ${aMember.lastName}`}
+                  <span
+                    style={{ marginLeft: 'auto' }}
+                    onClick={(event) =>
+                      deleteMember(
+                        (event.target as Element).getAttribute('data-myvalue')
+                      )
+                    }
+                  >
+                    <i
+                      className="fas fa-trash-alt "
+                      // style={{ marginLeft: 'auto' }}
+                      data-myValue={aMember.id}
+                    ></i>
+                  </span>
                 </ListGroup.Item>
               ))}
           </ListGroup>

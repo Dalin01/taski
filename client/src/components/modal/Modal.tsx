@@ -1,10 +1,11 @@
 import React from 'react';
-import { Members, State } from '../../types';
+import { Members, UserType } from '../../types';
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useState } from 'react';
 import { addTask } from '../../actionCreators/taskAction';
 import { useHistory } from 'react-router-dom';
+import { InitialState } from '../../views/login/Login';
 // import DatePicker from 'react-bootstrap-date-picker';
 
 const ModalComponent = ({
@@ -19,15 +20,10 @@ const ModalComponent = ({
   ] = useSelector((state: Members) => state.members).members;
 
   const dispatch = useDispatch();
-  const { user }: { user: State } = useSelector((state: any) => state.user);
+  const { user }: { user: UserType } = useSelector(
+    (state: InitialState) => state.user
+  );
   const history = useHistory();
-
-  // TO DO
-  // const date = new Date();
-  // const datetime = `${date.getFullYear()}-${
-  //   date.getMonth() + 1
-  // }-${date.getDate()}T${date.getHours()}:${date.getMinutes()}`;
-  // console.log(datetime);
 
   const [task, setTask] = useState('');
   const [deadline, setDeadline] = useState('2021-06-12T19:30');
@@ -71,7 +67,8 @@ const ModalComponent = ({
                 }}
               >
                 <option />
-                {membersNames.length &&
+                {membersNames &&
+                  membersNames.length &&
                   Object.keys(membersNames[0]).length !== 0 &&
                   membersNames.map((aMember) => (
                     <option

@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import FormContainer from '../../components/formContainers/FormContainer';
 import { useDispatch, useSelector } from 'react-redux';
-import { register } from '../../actionCreators/userAction';
-import { State, Failed, Register } from '../../types';
+import { registerAction } from '../../actionCreators/userAction';
+import { UserType, Failed, Register } from '../../types';
 import { useHistory } from 'react-router-dom';
+import { InitialState } from '../login/Login';
 
 const RegisterView = () => {
   const [email, setEmail] = useState('');
@@ -15,35 +16,35 @@ const RegisterView = () => {
   const [formError, setFormError] = useState('');
 
   const dispatch = useDispatch();
-  const registerLogin = useSelector((state: any) => state.user);
+  const registerLogin = useSelector((state: InitialState) => state.user);
   const {
     loading,
     error,
     user,
-  }: { loading: Boolean; error: Failed; user: State } = registerLogin;
+  }: { loading: boolean; error: Failed; user: UserType } = registerLogin;
 
   const history = useHistory();
   useEffect(() => {
-    if (user) {
-      history.push('/taskspaces');
+    if (user && user.token) {
+      history.push('/taskspace');
     }
   }, [user, history]);
 
-  function submit(event: React.FormEvent): void | false {
+  function submit(event: React.FormEvent): void {
     event.preventDefault();
     const password = password1 === password2 && password1;
-    if (password === false) {
+    if (!password) {
       setFormError('Password confirmation does not match password.');
-      return false;
+      return;
     }
     const details: Register = { firstName, password, lastName, email };
-    dispatch(register(details));
+    dispatch(registerAction(details));
   }
 
   return (
     <FormContainer className="main">
       <h1 className="py-5">Register</h1>
-      {error && (
+      {error.error && (
         <div className="alert alert-dismissible alert-warning">
           <p className="mb-0">{error.message}</p>
         </div>

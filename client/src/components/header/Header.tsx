@@ -1,13 +1,16 @@
 import { Container, Navbar, Nav } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { State } from '../../types';
+import { UserType } from '../../types';
 import ModalComponent from '../modal/Modal';
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import logo from './logoNew.svg';
+import { InitialState } from '../../views/login/Login';
 
 const Header = () => {
-  const { user }: { user: State } = useSelector((state: any) => state.user);
+  const { user }: { user: UserType } = useSelector(
+    (state: InitialState) => state.user
+  );
 
   const history = useHistory();
   let [path, setPath] = useState('');

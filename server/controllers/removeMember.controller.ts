@@ -8,8 +8,7 @@ export async function deleteMember(
   res: Response
 ): Promise<void | Response<any, Record<string, any>>> {
   try {
-    const { id } = req.params;
-    const { memberId }: { memberId: string } = req.body;
+    const { id, memberId } = req.params;
 
     let userTaskspace = await UserTaskspace.findOne({
       where: { userId: memberId, workspaceId: id },
@@ -23,9 +22,10 @@ export async function deleteMember(
     }
 
     await userTaskspace.destroy();
+
     res.status(200).send({
-      error: '200',
-      message: 'Member has been removed',
+      status: '200',
+      id: memberId,
     });
   } catch (e) {
     res.status(401).send({

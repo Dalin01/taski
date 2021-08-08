@@ -1,37 +1,45 @@
-import {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAILED,
-  LOGOUT,
-  REGISTER_FAILED,
-  REGISTER_REQUEST,
-  REGISTER_SUCCESS,
-} from '../constants/userConstant';
-import { State, Action } from '../types';
+import { UserType, Failed } from '../types';
 
-export const userReducer = (state: State | {} = {}, action: Action) => {
-  if (action.type === LOGIN_REQUEST) return { loading: true };
-  if (action.type === LOGIN_SUCCESS)
+export type UserReducerType = {
+  loading: boolean;
+  user: UserType;
+  error: Failed;
+};
+
+export type Action = {
+  type: string;
+  payload: UserType[];
+};
+
+export const userReducer = (
+  state: UserReducerType | {} = {},
+  action: Action
+) => {
+  if (action.type === 'LOGIN_REQUEST') return { ...state, loading: true };
+  if (action.type === 'LOGIN_SUCCESS') {
     return {
       ...state,
       loading: false,
       user: action.payload,
+      error: { error: '' },
     };
-  if (action.type === LOGIN_FAILED)
+  }
+  if (action.type === 'LOGIN_FAILED')
     return {
       ...state,
       loading: false,
       error: action.payload,
     };
-  if (action.type === LOGOUT) return {};
-  if (action.type === REGISTER_REQUEST) return { loading: true };
-  if (action.type === REGISTER_SUCCESS)
+  if (action.type === 'LOGOUT') return {};
+  if (action.type === 'REGISTER_REQUEST') return { ...state, loading: true };
+  if (action.type === 'REGISTER_SUCCESS')
     return {
       ...state,
       loading: false,
       user: action.payload,
+      error: { error: '' },
     };
-  if (action.type === REGISTER_FAILED)
+  if (action.type === 'REGISTER_FAILED')
     return {
       ...state,
       loading: false,

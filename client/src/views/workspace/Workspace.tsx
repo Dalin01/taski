@@ -3,15 +3,57 @@ import Sidebar from '../../components/sidebar/Sidebar';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import TaskContainer from '../../components/workspaceTopicContainer/TaskContainer';
-import { State } from '../../types';
+import { UserType, Members, Workspace } from '../../types';
 import { getTasks } from '../../actionCreators/taskAction';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { InitialState } from '../../types';
+import { getCurrentWorkspace } from '../../helper';
+import { getMembers } from '../../actionCreators/taskAction';
 
-const Workspace = () => {
-  const workspaceTasks = useSelector((state: any) => state.tasks);
-  const { loading, tasks }: { loading: Boolean; tasks: any } = workspaceTasks;
-  const { user }: { user: State } = useSelector((state: any) => state.user);
+export type Task = {
+  id: string;
+  task: string;
+  assignedTo: string;
+  createdBy: string;
+  deadline: string;
+  workspaceName: string;
+  workspaceId: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export interface ITask {
+  loading: boolean;
+  tasks: Task[];
+}
+
+const WorkspaceView = () => {
+  // Get Taskspaces, if any
+  const workspacesInStore: Workspace = useSelector(
+    (state: InitialState) => state.workSpaces
+  );
+  const workspaces = workspacesInStore.workspace;
+
+  // Get Tasks
+  const workspaceTasks: ITask = useSelector(
+    (state: InitialState) => state.tasks
+  );
+  const { loading, tasks }: { loading: boolean; tasks: Task[] } =
+    workspaceTasks;
+  // Get User
+  const { user }: { user: UserType } = useSelector(
+    (state: InitialState) => state.user
+  );
+  // Get Taskspace members
+  const taskMembers: Members = useSelector(
+    (state: InitialState) => state.members
+  );
+  // const membersNames: [
+  //   { id: string; firstName: string; lastName: string; email: string }
+  // ] = taskMembers.members;
+  // const memberError: string = taskMembers.error.error;
+
   const dispatch = useDispatch();
   let { id, name }: { id: string; name: string } = useParams();
 
@@ -27,12 +69,50 @@ const Workspace = () => {
     );
   }, [dispatch, user.token, id, name]);
 
+  const [createdBy, setCreatedBy] = useState('');
+  const [currentTaskspace, setCurrentTaskspace] = useState({
+    id: '',
+    name: '',
+    createdBy: -1,
+    createdAt: '',
+    updatedAt: '',
+  });
+
+  useEffect(() => {
+    if (workspaces && !(Object.keys(workspaces).length === 0)) {
+      const result = getCurrentWorkspace(workspacesInStore, name, id);
+      if (result) {
+        setCurrentTaskspace(result);
+        setCreatedBy('' + result.createdBy);
+        dispatch(
+          getMembers(result, {
+            userEmail: user.id,
+            userId: user.email,
+            userToken: user.token,
+          })
+        );
+      }
+    }
+  }, [
+    workspaces,
+    workspacesInStore,
+    name,
+    id,
+    user.id,
+    user.email,
+    user.token,
+    dispatch,
+  ]);
+
   return (
     <>
       <div>
         <Row>
           <Col xs={2}>
-            <Sidebar />
+            <Sidebar
+              createdBy={createdBy}
+              currentTaskspace={currentTaskspace}
+            />
           </Col>
           <Col xs={10}>
             {loading && <p>loading...</p>}
@@ -56,4 +136,4 @@ const Workspace = () => {
   );
 };
 
-export default Workspace;
+export default WorkspaceView;

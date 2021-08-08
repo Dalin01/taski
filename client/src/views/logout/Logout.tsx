@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { State } from '../../types';
+import { UserType } from '../../types';
 import { useHistory } from 'react-router-dom';
 import { logout } from '../../actionCreators/userAction';
+import { InitialState } from '../login/Login';
 
 const Logout = () => {
   const dispatch = useDispatch();
-  const { user }: { user: State } = useSelector((state: any) => state.user);
+  const { user }: { user: UserType } = useSelector(
+    (state: InitialState) => state.user
+  );
 
   const history = useHistory();
   useEffect(() => {
